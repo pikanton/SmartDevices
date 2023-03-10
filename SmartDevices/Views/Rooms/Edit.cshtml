@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "_Layout";
+}
+<div class="center">
+<div class="form-signin w-25 m-auto" style="color: black">
+    <form asp-action="EditRoom" method="post">
+            <h1 class="h3 mb-3 fw-normal" style="color: white">Введите данные о комнате</h1>
+        <input type ="hidden" name="Id" value="@Model.CurrentRoom.Id"/>
+        <div class="form-floating m-2">
+                <input type="text" class="form-control" id="Name" name="Name" value="@Model.CurrentRoom.Name" required>
+            <label for="Name">Название</label>
+        </div>
+        <div class="form-floating m-2">
+                <input type="number" class="form-control" id="SquareMeters" name="SquareMeters" value="@Model.CurrentRoom.SquareMeters">
+            <label for="SquareMeters">Количество квадратных метров</label>
+        </div>
+            <div class="form-floating m-2">
+                <select class="form-select" aria-label="Default select example" name="houseId" required>
+                    @{
+                        foreach (House house in Model.AllHouses)
+                        {
+                            <option value="@house.Id">@house.Adress</option>
+                        }
+                    }
+                </select>
+                <label for="houseId">Адрес дома</label>
+            </div>
+        <button class="w-50 btn btn-lg btn-primary" type="submit">Изменить</button>
+    </form>
+</div>
+</div>
+

@@ -1,0 +1,93 @@
+﻿@{
+    Layout = "_Layout";
+}
+<div class="nav-li" style="display:flex; flex-direction: row-reverse">
+    <a class="nav-link fw-bold py-1 px-0 m-1" href="/Devices/Add">Добавление<br />устройства</a>
+</div>
+@{
+    foreach (var house in Model.AllHouses)
+    {
+        int flag = 0;
+        foreach (var room in Model.AllRooms)
+            if (room.House.Id == house.Id) 
+                foreach (var device in Model.AllDevices) 
+                    if (device.Room.Id == room.Id) 
+                        flag = 1;
+        if (flag == 0) continue;
+        <h2 style="margin: 20px">@house.Adress</h2>
+        foreach (var room in Model.AllRooms)
+        {
+            flag = 0;
+            foreach (var device in Model.AllDevices) if (device.Room.Id == room.Id) flag=1;
+            if (flag == 0) continue;
+            if (room.House.Id == house.Id)
+            {
+                <h3 style="margin: 20px">@room.Name</h3>
+                <div class="container">
+                    @{
+                        foreach (var device in Model.AllDevices)
+                        {
+                            double date = 0;
+                            if (device.Time != null)
+                                date = device.Time.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+                            if (device.Room.Id == room.Id)
+                            {
+                                <div class="card bg-light " style="width: 15rem; --bs-bg-opacity: .1;">
+                                    <img src="@device.Image" class="card-img-top" style="height:15rem">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@device.Name</h5>
+                                        <p class="card-text" style="margin-bottom: 0.1rem">@device.ShortDescription</p>
+                                        @{
+                                            if (device.IsActive)
+                                            {
+                                                <div class="card-text" style="display:inline-block; margin: 5px">
+                                                    <span>Устройство работает -</span>
+                                                    <span class="time" id="time-@device.Id"></span>
+                                                </div>
+                                                <form asp-action="EditActivity" method="post">
+                                                    <input type="hidden" name="id" value="@device.Id" />
+                                                    <button class="btn btn-primary m-1" type="submit" onclick="return confirm('Вы действительно хотите выключить устройство?')">Выключить</button>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <form asp-action="EditActivity" method="post">
+                                                    <input type="hidden" name="id" value="@device.Id" />
+                                                    <button class="btn btn-primary m-1" type="submit" onclick="return confirm('Вы действительно хотите включить устройство?')">Включить</button>
+                                                </form>
+                                            }
+                                        }
+                                        <form asp-action="Delete" method="post">
+                                            <input type="hidden" name="id" value="@device.Id" />
+                                            <button class="btn btn-primary m-1" type="submit" onclick="return confirm('Вы уверены?')">Удалить устройство</button>
+                                        </form>
+                                        <form asp-action="Edit" method="post">
+                                            <input type="hidden" name="id" value="@device.Id" />
+                                            <button class="btn btn-primary m-1" type="submit">Изменить устройство</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            }
+        }
+
+    }
+    foreach (var device in Model.AllDevices)
+    {
+        double date = 0;
+        if (!device.IsActive)
+            continue;
+        if (device.Time != null)
+            date = device.Time.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+        <script language="javaScript">
+            setInterval(() => {
+                let devDate = @date
+                let subDate = new Date(Date.now()).getTime() - devDate
+                document.querySelector("#time-" + @device.Id).textContent = new Date(subDate).toLocaleTimeString()
+            }, 1000)
+        </script>
+    }
+}

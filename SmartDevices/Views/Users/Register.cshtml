@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "_Layout";
+}
+<div class="center">
+    <div class="form-signin w-25 m-auto" style="color: black">
+        <form asp-action="Register" method="post">
+            <h1 class="h3 mb-3 fw-normal" style="color: white">Введите данные для регистрации</h1>
+            <div class="form-floating m-2">
+                <input type="text" class="form-control" id="FirstName" name="FirstName" required>
+                <label for="FirstName">Имя</label>
+            </div>
+            <div class="form-floating m-2">
+                <input type="text" class="form-control" id="LastName" name="LastName">
+                <label for="LastName">Фамилия</label>
+            </div>
+            <div class="form-floating m-2">
+                <input type="email" class="form-control" id="Email" name="Email" required>
+                <label for="Email">Email</label>
+            </div>
+            <div class="form-floating m-2">
+                <input type="password" class="form-control" id="Password" name="Password">
+                <label for="Password">Пароль</label>
+            </div>
+            <button class="w-50 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>

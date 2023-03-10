@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "_Layout";
+}
+<div class="center">
+<div class="form-signin w-25 m-auto" style="color: black">
+    <form asp-action="EditHouse" method="post">
+            <h1 class="h3 mb-3 fw-normal" style="color: white">Введите адрес дома</h1>
+        <input type ="hidden" name="Id" value="@Model.CurrentHouse.Id"/>
+        <div class="form-floating m-2">
+                <input type="text" class="form-control" id="Adress" name="Adress" value="@Model.CurrentHouse.Adress"required>
+                <label for="Adress">Адрес</label>
+        </div>
+        <button class="w-50 btn btn-lg btn-primary" type="submit">Изменить</button>
+    </form>
+</div>
+</div>
+

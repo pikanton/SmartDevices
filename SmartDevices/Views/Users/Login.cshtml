@@ -1,0 +1,25 @@
+﻿@model User
+@{
+    Layout = "_Layout";
+}
+<div class="center">
+    <div class="form-signin w-25 m-auto" style="color: black">
+        <form asp-action="Login" asp-controller="Users" asp-anti-forgery="true" method="post">
+            <div class="validation" asp-validation-summary="ModelOnly"></div>
+            <h1 class="h3 mb-3 fw-normal" style="color: white">Введите данные для входа</h1>
+
+            <div class="form-floating m-2">
+                <input type="email" class="form-control" id="Email" name="Email">
+                <label for="Email">Email</label>
+                <span asp-validation-for="Email"/>
+            </div>
+            <div class="form-floating m-2">
+                <input type="password" class="form-control" id="Password" name="Password">
+                <label for="Password">Пароль</label>
+                <span asp-validation-for="Password"/>
+            </div>
+            <button class="w-50 btn btn-lg btn-primary" type="submit">Войти</button>
+        </form>
+        <a class="nav-link fw-bold py-1 px-0 m-1" href="/Users/Register">Регистрация</a>
+    </div>
+</div>
